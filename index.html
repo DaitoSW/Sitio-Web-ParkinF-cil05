@@ -1,0 +1,1652 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Parking Fácil 05 — Barcelona</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:        #0a0a0a;
+      --bg2:       #111111;
+      --bg3:       #161616;
+      --surface:   #1c1c1c;
+      --border:    #2a2a2a;
+      --accent:    #f0b429;
+      --accent2:   #e8870a;
+      --text:      #f0ede8;
+      --muted:     #888;
+      --font-head: 'Bebas Neue', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.2rem 4rem;
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: var(--font-head); font-size: 1.6rem; letter-spacing: 2px; color: var(--accent); }
+    .nav-logo span { color: var(--text); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.85rem; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; transition: color .2s; }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-cta { background: var(--accent); color: #000; padding: .6rem 1.4rem; border-radius: 4px; font-size: 0.8rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; text-decoration: none; transition: background .2s; }
+    .nav-cta:hover { background: var(--accent2); }
+
+    /* HERO */
+    #inicio { min-height: 100vh; display: flex; align-items: center; padding: 8rem 4rem 4rem; position: relative; overflow: hidden; }
+    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; max-width: 1200px; margin: 0 auto; width: 100%; }
+    .hero-tag { display: inline-block; background: rgba(240,180,41,0.12); border: 1px solid rgba(240,180,41,0.35); color: var(--accent); font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; padding: .4rem 1rem; border-radius: 2px; margin-bottom: 1.5rem; }
+    .hero-title { font-family: var(--font-head); font-size: clamp(3.5rem, 7vw, 6rem); line-height: 1; letter-spacing: 2px; margin-bottom: 1.5rem; }
+    .hero-title em { font-style: normal; -webkit-text-stroke: 1px var(--accent); color: transparent; }
+    .hero-sub { color: var(--muted); font-size: 1rem; max-width: 420px; line-height: 1.8; margin-bottom: 2.5rem; }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary { background: var(--accent); color: #000; padding: .85rem 2rem; border-radius: 4px; font-weight: 600; text-decoration: none; font-size: .9rem; letter-spacing: .5px; transition: background .2s, transform .15s; }
+    .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
+    .btn-outline { border: 1px solid var(--border); color: var(--text); padding: .85rem 2rem; border-radius: 4px; font-weight: 500; text-decoration: none; font-size: .9rem; letter-spacing: .5px; transition: border-color .2s, transform .15s; }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+    .hero-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 3rem; border-top: 1px solid var(--border); padding-top: 2rem; }
+    .stat-num { font-family: var(--font-head); font-size: 2.8rem; color: var(--accent); letter-spacing: 1px; }
+    .stat-label { font-size: .8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+
+    /* HERO CARD */
+    .hero-visual { position: relative; display: flex; align-items: center; justify-content: center; }
+    .hero-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 2.5rem; width: 100%; max-width: 380px; position: relative; box-shadow: 0 0 80px rgba(240,180,41,0.07); }
+    .hero-card::before { content: ''; position: absolute; inset: -1px; border-radius: 12px; background: linear-gradient(135deg, rgba(240,180,41,0.2), transparent 60%); z-index: -1; }
+    .card-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+    .card-title { font-family: var(--font-head); font-size: 1.4rem; letter-spacing: 1px; margin-bottom: .5rem; color: var(--accent); }
+    .card-addr { font-size: .85rem; color: var(--muted); margin-bottom: 1.5rem; line-height: 1.6; }
+    .card-badge { display: inline-flex; align-items: center; gap: .4rem; background: rgba(240,180,41,0.1); border: 1px solid rgba(240,180,41,0.3); color: var(--accent); font-size: .75rem; padding: .3rem .8rem; border-radius: 20px; }
+    .pulse { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .5; transform: scale(1.4); } }
+
+    /* BG */
+    .bg-grid { position: absolute; inset: 0; z-index: -1; background-image: linear-gradient(rgba(240,180,41,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(240,180,41,0.03) 1px, transparent 1px); background-size: 60px 60px; }
+    .bg-glow { position: absolute; width: 600px; height: 600px; background: radial-gradient(circle, rgba(240,180,41,0.06) 0%, transparent 70%); top: 50%; left: 60%; transform: translate(-50%,-50%); z-index: -1; pointer-events: none; }
+
+    /* SECTIONS */
+    section { padding: 7rem 4rem; }
+    .section-label { font-size: .75rem; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: .8rem; }
+    .section-title { font-family: var(--font-head); font-size: clamp(2.2rem, 4vw, 3.5rem); letter-spacing: 1px; line-height: 1.1; margin-bottom: 1rem; }
+    .section-sub { color: var(--muted); max-width: 540px; line-height: 1.8; }
+    .container { max-width: 1200px; margin: 0 auto; }
+
+    /* SERVICIOS */
+    #servicios { background: var(--bg2); }
+    .services-header { margin-bottom: 4rem; }
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-bottom: 4rem; }
+    .service-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 2rem; transition: border-color .25s, transform .25s; }
+    .service-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .service-icon { font-size: 2rem; margin-bottom: 1.2rem; }
+    .service-name { font-family: var(--font-head); font-size: 1.3rem; letter-spacing: 1px; color: var(--text); margin-bottom: .5rem; }
+    .service-desc { font-size: .88rem; color: var(--muted); line-height: 1.7; }
+
+    /* PRICING */
+    .pricing-title { font-family: var(--font-head); font-size: 1.8rem; letter-spacing: 1px; margin-bottom: 2rem; color: var(--accent); }
+    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+    .price-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+      padding: 2rem 1.8rem; position: relative; overflow: hidden;
+      transition: border-color .3s, transform .25s, box-shadow .3s; cursor: pointer;
+      display: flex; flex-direction: column; gap: .4rem;
+    }
+    .price-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(240,180,41,0.04) 0%, transparent 60%); opacity: 0; transition: opacity .3s; pointer-events: none; }
+    .price-card:hover { border-color: var(--accent); transform: translateY(-5px); box-shadow: 0 20px 60px rgba(240,180,41,0.12); }
+    .price-card:hover::after { opacity: 1; }
+    .price-days-badge { display: inline-flex; align-items: center; justify-content: center; background: rgba(240,180,41,0.1); border: 1px solid rgba(240,180,41,0.25); color: var(--accent); font-size: .7rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: .3rem .9rem; border-radius: 20px; width: fit-content; margin-bottom: .5rem; }
+    .price-amount { font-family: var(--font-head); font-size: 3.5rem; color: var(--text); letter-spacing: -1px; line-height: 1; display: flex; align-items: flex-start; gap: 4px; }
+    .price-amount .currency { font-family: var(--font-head); font-size: 1.5rem; color: var(--accent); margin-top: .3rem; }
+    .price-per-day { font-size: .78rem; color: var(--muted); margin-top: .2rem; margin-bottom: auto; }
+    .price-cta-btn { display: flex; align-items: center; justify-content: center; gap: .5rem; margin-top: 1.4rem; background: rgba(240,180,41,0.08); border: 1px solid rgba(240,180,41,0.25); color: var(--accent); font-size: .78rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: .6rem 1.2rem; border-radius: 8px; transition: background .2s, border-color .2s, transform .15s; width: 100%; }
+    .price-card:hover .price-cta-btn { background: var(--accent); color: #000; border-color: var(--accent); }
+    .price-cta-btn .arrow { transition: transform .2s; }
+    .price-card:hover .price-cta-btn .arrow { transform: translateX(4px); }
+
+    /* PAYMENT SECTION */
+    #pago { background: var(--bg); }
+    .pago-header { margin-bottom: 4rem; }
+
+    /* Stepper */
+    .stepper { display: flex; align-items: center; gap: 0; margin-bottom: 3.5rem; max-width: 600px; }
+    .step { display: flex; flex-direction: column; align-items: center; gap: .4rem; flex: 1; position: relative; }
+    .step-num { width: 40px; height: 40px; border-radius: 50%; background: var(--bg3); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: var(--font-head); font-size: 1.1rem; color: var(--muted); transition: all .35s; position: relative; z-index: 1; }
+    .step.active .step-num { background: var(--accent); border-color: var(--accent); color: #000; box-shadow: 0 0 20px rgba(240,180,41,0.35); }
+    .step.done .step-num { background: #22c55e; border-color: #22c55e; color: #fff; font-size: .9rem; }
+    .step-label { font-size: .72rem; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
+    .step.active .step-label { color: var(--accent); }
+    .step.done .step-label { color: #22c55e; }
+    .step-line { flex: 1; height: 2px; background: var(--border); margin: 0; position: relative; top: -14px; transition: background .35s; }
+    .step-line.done { background: #22c55e; }
+
+    /* Payment layout */
+    .pago-layout { display: grid; grid-template-columns: 1fr 380px; gap: 3rem; align-items: start; }
+
+    /* Steps panels */
+    .pago-panel { display: none; }
+    .pago-panel.active { display: block; }
+    .pago-panel-title { font-family: var(--font-head); font-size: 1.7rem; letter-spacing: 1px; margin-bottom: 2rem; color: var(--text); }
+
+    /* RESERVA WIDGET */
+    .reserva-widget { background: var(--bg3); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; box-shadow: 0 8px 40px rgba(0,0,0,0.3); }
+    .rw-widget-header { padding: 1.6rem 2rem 1.2rem; border-bottom: 1px solid var(--border); background: linear-gradient(135deg, rgba(240,180,41,0.04), transparent); }
+    .rw-widget-title { font-family: var(--font-head); font-size: 1.3rem; letter-spacing: 1px; color: var(--accent); margin-bottom: .3rem; }
+    .rw-widget-sub { font-size: .78rem; color: var(--muted); }
+    .rw-body { padding: 1.8rem 2rem; }
+    .rw-horario-notice { display: flex; align-items: center; gap: .6rem; padding: .75rem 1rem; background: rgba(240,180,41,0.05); border: 1px dashed rgba(240,180,41,0.25); border-radius: 10px; margin-bottom: 1.5rem; font-size: .78rem; color: var(--muted); }
+    .rw-horario-notice strong { color: var(--accent); }
+
+    .rw-date-block { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 1.4rem; }
+    .rw-date-row { display: grid; grid-template-columns: 1fr 1px 1fr; align-items: stretch; }
+    .rw-date-sep { background: var(--border); width: 1px; }
+    .rw-date-cell { padding: 1.1rem 1.3rem; display: flex; flex-direction: column; gap: .3rem; cursor: pointer; transition: background .2s; position: relative; user-select: none; }
+    .rw-date-cell:hover { background: rgba(240,180,41,0.06); }
+    .rw-date-cell:active { background: rgba(240,180,41,0.1); }
+    .rw-date-cell label { font-size: .68rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); font-weight: 600; pointer-events: none; }
+    .rw-date-cell input[type="date"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; z-index: 2; }
+    .rw-date-val { font-size: 1rem; font-weight: 500; color: var(--text); pointer-events: none; z-index: 1; position: relative; min-height: 1.5em; }
+    .rw-date-val.placeholder { color: var(--muted); font-weight: 400; }
+    .rw-time-select { background: none; border: none; color: var(--text); font-family: var(--font-body); font-size: 1rem; font-weight: 500; outline: none; width: 100%; cursor: pointer; padding: 0; -webkit-appearance: none; appearance: none; }
+    .rw-time-select option { background: #1c1c1c; color: var(--text); }
+    .rw-duration-bar { display: flex; align-items: center; justify-content: space-between; padding: .8rem 1.3rem; background: rgba(240,180,41,0.06); border-top: 1px solid rgba(240,180,41,0.15); font-size: .8rem; }
+    .rw-duration-label { color: var(--muted); }
+    .rw-duration-value { color: var(--accent); font-weight: 700; font-family: var(--font-head); font-size: 1.05rem; letter-spacing: .5px; }
+    .rw-tariff-display { background: var(--surface); border: 1px solid rgba(240,180,41,0.2); border-radius: 12px; padding: 1.3rem 1.5rem; margin-bottom: 1.4rem; display: none; }
+    .rw-tariff-label { font-size: .72rem; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: .6rem; }
+    .rw-tariff-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: .5rem; }
+    .rw-tariff-name { font-family: var(--font-head); font-size: 1.2rem; color: var(--text); letter-spacing: .5px; }
+    .rw-tariff-note { font-size: .75rem; color: var(--muted); margin-top: .2rem; }
+    .rw-tariff-price { font-family: var(--font-head); font-size: 2.4rem; color: var(--accent); line-height: 1; }
+    .rw-tariff-price em { font-family: var(--font-body); font-style: normal; font-size: .82rem; color: var(--muted); }
+
+    /* STEP 2 */
+    .data-section { background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 1.5rem; }
+    .data-section-header { background: linear-gradient(135deg, rgba(240,180,41,0.12), rgba(240,180,41,0.05)); border-bottom: 1px solid rgba(240,180,41,0.2); padding: .85rem 1.5rem; font-family: var(--font-head); font-size: 1.05rem; letter-spacing: 1.5px; color: var(--accent); display: flex; align-items: center; gap: .6rem; }
+    .data-section-body { padding: 1.5rem; }
+    .data-subsection-title { font-size: .8rem; font-weight: 700; color: var(--text); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; margin-top: .5rem; }
+    .data-subsection-title:first-child { margin-top: 0; }
+    .data-col2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    .data-col3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    .data-col1 { margin-bottom: 1rem; }
+    .data-divider { height: 1px; background: var(--border); margin: 1.2rem 0; }
+    .pg-form-group { display: flex; flex-direction: column; gap: .4rem; }
+    .pg-form-group label { font-size: .75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+    .pg-form-group label .opt { font-size: .68rem; color: #555; font-weight: 400; letter-spacing: 0; text-transform: none; margin-left: .3rem; }
+    .pg-form-group input, .pg-form-group select, .pg-form-group textarea { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: .85rem 1.1rem; color: var(--text); font-family: var(--font-body); font-size: .95rem; outline: none; transition: border-color .2s, box-shadow .2s; }
+    .pg-form-group input:focus, .pg-form-group select:focus, .pg-form-group textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(240,180,41,0.1); }
+    .pg-form-group input.input-error { border-color: #ef4444; }
+    .pg-form-group select option { background: #161616; }
+    .pg-form-group textarea { resize: vertical; min-height: 90px; }
+    .field-error { font-size: .72rem; color: #ef4444; margin-top: .2rem; display: none; }
+    .field-error.show { display: block; }
+
+    /* Payment methods */
+    .pay-methods { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 2rem; }
+    .pay-method { background: var(--bg3); border: 2px solid var(--border); border-radius: 12px; padding: 1.3rem; cursor: pointer; transition: all .25s; display: flex; align-items: center; gap: .9rem; }
+    .pay-method:hover { border-color: rgba(240,180,41,0.4); transform: translateY(-2px); }
+    .pay-method.selected { border-color: var(--accent); background: rgba(240,180,41,0.06); }
+    .pay-method-icon { font-size: 1.6rem; flex-shrink: 0; }
+    .pay-method-name { font-size: .88rem; font-weight: 600; color: var(--text); }
+    .pay-method-sub { font-size: .73rem; color: var(--muted); }
+
+    /* Transfer box */
+    .transfer-box { background: var(--bg3); border: 1px solid rgba(240,180,41,0.3); border-radius: 12px; padding: 1.8rem; margin-bottom: 1.5rem; display: none; }
+    .transfer-box.show { display: block; }
+    .transfer-box-title { font-family: var(--font-head); font-size: 1.1rem; letter-spacing: 1px; color: var(--accent); margin-bottom: 1.2rem; display: flex; align-items: center; gap: .6rem; }
+    .transfer-row { display: flex; justify-content: space-between; align-items: center; padding: .7rem 0; border-bottom: 1px solid var(--border); }
+    .transfer-row:last-child { border-bottom: none; }
+    .transfer-key { font-size: .78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+    .transfer-val { font-size: .9rem; color: var(--text); font-weight: 500; display: flex; align-items: center; gap: .5rem; }
+    .copy-btn { background: none; border: 1px solid var(--border); color: var(--muted); font-size: .7rem; padding: .25rem .7rem; border-radius: 4px; cursor: pointer; transition: all .2s; font-family: var(--font-body); }
+    .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .iban-display { font-family: monospace; font-size: .88rem; letter-spacing: 1px; }
+
+    /* Bizum box */
+    .bizum-box { background: var(--bg3); border: 1px solid rgba(0,123,229,0.35); border-radius: 12px; padding: 1.8rem; margin-bottom: 1.5rem; display: none; }
+    .bizum-box.show { display: block; }
+    .bizum-box-title { font-family: var(--font-head); font-size: 1.1rem; letter-spacing: 1px; color: #007be5; margin-bottom: 1.2rem; display: flex; align-items: center; gap: .6rem; }
+    .bizum-phone-display { font-family: monospace; font-size: 1.6rem; color: var(--text); letter-spacing: 3px; font-weight: 700; }
+    .bizum-highlight { background: rgba(0,123,229,0.08); border: 1px dashed rgba(0,123,229,0.3); border-radius: 8px; padding: 1.2rem; margin: 1rem 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .8rem; }
+    .bizum-steps { margin-top: 1.2rem; }
+    .bizum-step { display: flex; align-items: flex-start; gap: .8rem; padding: .6rem 0; border-bottom: 1px solid var(--border); }
+    .bizum-step:last-child { border-bottom: none; }
+    .bizum-step-num { width: 22px; height: 22px; border-radius: 50%; background: rgba(0,123,229,0.15); border: 1px solid rgba(0,123,229,0.3); display: flex; align-items: center; justify-content: center; font-size: .7rem; font-weight: 700; color: #007be5; flex-shrink: 0; margin-top: 2px; }
+    .bizum-step-text { font-size: .82rem; color: var(--muted); line-height: 1.6; }
+    .bizum-step-text strong { color: var(--text); }
+
+    /* Cash box */
+    .cash-box { background: var(--bg3); border: 1px solid rgba(240,180,41,0.2); border-radius: 12px; padding: 1.8rem; margin-bottom: 1.5rem; display: none; }
+    .cash-box.show { display: block; }
+    .cash-box p { font-size: .88rem; color: var(--muted); line-height: 1.8; }
+    .cash-box strong { color: var(--text); }
+
+    /* File upload */
+    .comprobante-section { margin-top: 1.8rem; border-top: 1px solid var(--border); padding-top: 1.5rem; }
+    .comprobante-label { font-size: .78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: .8rem; display: flex; align-items: center; gap: .5rem; }
+    .comprobante-label .badge-req { background: rgba(240,180,41,0.15); border: 1px solid rgba(240,180,41,0.3); color: var(--accent); font-size: .65rem; padding: .15rem .5rem; border-radius: 20px; }
+    .upload-zone { border: 2px dashed var(--border); border-radius: 10px; padding: 2rem 1.5rem; text-align: center; cursor: pointer; transition: all .25s; position: relative; background: var(--bg); }
+    .upload-zone:hover, .upload-zone.dragover { border-color: var(--accent); background: rgba(240,180,41,0.04); }
+    .upload-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+    .upload-icon { font-size: 2rem; margin-bottom: .6rem; }
+    .upload-text { font-size: .85rem; color: var(--muted); line-height: 1.6; }
+    .upload-text strong { color: var(--text); }
+    .upload-preview { display: none; margin-top: 1rem; position: relative; }
+    .upload-preview.show { display: block; }
+    .upload-preview img { max-width: 100%; max-height: 200px; object-fit: contain; border-radius: 8px; border: 1px solid var(--border); }
+    .upload-preview .remove-btn { position: absolute; top: 6px; right: 6px; background: rgba(239,68,68,0.9); border: none; color: #fff; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: .8rem; display: flex; align-items: center; justify-content: center; }
+    .upload-preview .file-name { font-size: .75rem; color: var(--muted); margin-top: .5rem; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .upload-success-badge { display: none; margin-top: .8rem; background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.25); border-radius: 6px; padding: .5rem .9rem; font-size: .78rem; color: #22c55e; align-items: center; gap: .4rem; }
+    .upload-success-badge.show { display: flex; }
+
+    /* Confirm step */
+    .confirm-box { background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; margin-bottom: 2rem; }
+    .confirm-row { display: flex; justify-content: space-between; padding: .65rem 0; border-bottom: 1px solid var(--border); }
+    .confirm-row:last-child { border-bottom: none; }
+    .confirm-key { font-size: .82rem; color: var(--muted); }
+    .confirm-val { font-size: .9rem; font-weight: 500; color: var(--text); text-align: right; max-width: 60%; }
+    .confirm-total { display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 2px solid var(--accent); }
+    .confirm-total-label { font-family: var(--font-head); font-size: 1.2rem; letter-spacing: 1px; color: var(--muted); }
+    .confirm-total-amount { font-family: var(--font-head); font-size: 2.4rem; color: var(--accent); }
+
+    /* Nav buttons */
+    .step-nav { display: flex; gap: 1rem; margin-top: 2rem; }
+    .btn-next { background: var(--accent); color: #000; border: none; padding: .95rem 2.4rem; border-radius: 8px; font-size: .9rem; font-weight: 700; cursor: pointer; font-family: var(--font-body); letter-spacing: .5px; transition: background .2s, transform .15s, box-shadow .2s; }
+    .btn-next:hover { background: var(--accent2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(240,180,41,0.3); }
+    .btn-next:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
+    .btn-back { background: none; border: 1px solid var(--border); color: var(--muted); padding: .95rem 1.8rem; border-radius: 8px; font-size: .9rem; cursor: pointer; font-family: var(--font-body); transition: border-color .2s, color .2s; }
+    .btn-back:hover { border-color: var(--accent); color: var(--text); }
+
+    /* Order summary */
+    .order-summary { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; position: sticky; top: 100px; }
+    .order-summary-title { font-family: var(--font-head); font-size: 1.3rem; letter-spacing: 1px; color: var(--accent); margin-bottom: 1.5rem; display: flex; align-items: center; gap: .6rem; }
+    .summary-row { display: flex; justify-content: space-between; padding: .65rem 0; border-bottom: 1px solid var(--border); }
+    .summary-row:last-of-type { border-bottom: none; }
+    .summary-key { font-size: .82rem; color: var(--muted); }
+    .summary-val { font-size: .88rem; color: var(--text); font-weight: 500; text-align: right; max-width: 55%; }
+    .summary-total { margin-top: 1.5rem; padding-top: 1.2rem; border-top: 2px solid var(--accent); display: flex; justify-content: space-between; align-items: baseline; }
+    .summary-total-label { font-family: var(--font-head); font-size: 1rem; letter-spacing: 1px; color: var(--muted); }
+    .summary-total-num { font-family: var(--font-head); font-size: 2.2rem; color: var(--accent); }
+    .summary-badge { margin-top: 1.2rem; background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.25); border-radius: 6px; padding: .7rem 1rem; font-size: .78rem; color: #22c55e; display: flex; align-items: center; gap: .5rem; }
+    .summary-legal { margin-top: 1.2rem; font-size: .72rem; color: var(--muted); line-height: 1.7; }
+    .summary-legal strong { color: var(--text); }
+    .summary-divider { height: 1px; background: var(--border); margin: 1.2rem 0; }
+    .company-info { font-size: .78rem; color: var(--muted); line-height: 1.7; }
+    .company-info strong { color: rgba(240,180,41,0.8); display: block; margin-bottom: .3rem; font-size: .8rem; letter-spacing: .5px; }
+
+    /* Email overlay */
+    .email-sending-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 9999; display: none; align-items: center; justify-content: center; }
+    .email-sending-overlay.show { display: flex; }
+    .email-sending-box { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 3rem 2.5rem; text-align: center; max-width: 380px; width: 90%; }
+    .email-sending-spinner { width: 52px; height: 52px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 1.5rem; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .email-sending-title { font-family: var(--font-head); font-size: 1.6rem; letter-spacing: 1px; color: var(--text); margin-bottom: .5rem; }
+    .email-sending-sub { font-size: .85rem; color: var(--muted); line-height: 1.7; }
+
+    /* Success */
+    .success-screen { text-align: center; padding: 3rem 2rem; display: none; }
+    .success-icon { font-size: 4rem; margin-bottom: 1.5rem; animation: bounceIn .6s ease; }
+    @keyframes bounceIn { 0% { transform: scale(0); } 60% { transform: scale(1.2); } 100% { transform: scale(1); } }
+    .success-title { font-family: var(--font-head); font-size: 2.5rem; letter-spacing: 2px; color: #22c55e; margin-bottom: 1rem; }
+    .success-sub { color: var(--muted); max-width: 460px; margin: 0 auto 2rem; line-height: 1.8; }
+    .success-ref { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.5rem; display: inline-block; margin-bottom: 2rem; }
+    .success-ref-label { font-size: .72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: .3rem; }
+    .success-ref-num { font-family: var(--font-head); font-size: 1.6rem; letter-spacing: 3px; color: var(--accent); }
+    .success-emails-sent { display: flex; align-items: center; justify-content: center; gap: .5rem; background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.2); border-radius: 8px; padding: .8rem 1.2rem; margin-bottom: 1.5rem; font-size: .82rem; color: #22c55e; }
+
+    /* GALERIA */
+    #galeria { background: var(--bg2); }
+    .gallery-header { margin-bottom: 3rem; }
+    .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    .gallery-item { border-radius: 8px; overflow: hidden; background: var(--surface); border: 1px solid var(--border); aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; font-size: 3rem; position: relative; transition: transform .3s; cursor: pointer; }
+    .gallery-item:hover { transform: scale(1.02); }
+    .gallery-item .overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.7) 0%, transparent 60%); opacity: 0; transition: opacity .3s; display: flex; align-items: flex-end; padding: 1.2rem; }
+    .gallery-item:hover .overlay { opacity: 1; }
+    .overlay-text { font-size: .85rem; color: var(--text); font-weight: 500; }
+    .g1 { background: linear-gradient(135deg, #1a1a2e, #16213e); }
+    .g2 { background: linear-gradient(135deg, #1c1c1c, #2a2a2a); }
+    .g3 { background: linear-gradient(135deg, #0f2027, #203a43); }
+    .g4 { background: linear-gradient(135deg, #1a1a1a, #333); }
+    .g5 { background: linear-gradient(135deg, #111, #1c1c1c); }
+
+    /* CONTACTO */
+    #contacto { background: var(--bg2); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+    .contact-item { display: flex; gap: 1.2rem; align-items: flex-start; margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+    .contact-item:last-of-type { border-bottom: none; }
+    .contact-icon { width: 46px; height: 46px; flex-shrink: 0; background: rgba(240,180,41,0.1); border: 1px solid rgba(240,180,41,0.25); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+    .contact-label { font-size: .75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: .3rem; }
+    .contact-value { font-size: 1rem; color: var(--text); font-weight: 500; }
+    .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: .4rem; }
+    .form-group label { font-size: .8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+    .form-group input, .form-group textarea, .form-group select { background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: .85rem 1rem; color: var(--text); font-family: var(--font-body); font-size: .9rem; transition: border-color .2s; outline: none; }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--accent); }
+    .form-group textarea { resize: vertical; min-height: 110px; }
+    .form-group select option { background: var(--bg3); }
+    .btn-submit { background: var(--accent); color: #000; border: none; padding: 1rem 2rem; border-radius: 6px; font-size: .9rem; font-weight: 700; letter-spacing: .5px; cursor: pointer; transition: background .2s, transform .15s; font-family: var(--font-body); }
+    .btn-submit:hover { background: var(--accent2); transform: translateY(-2px); }
+    .btn-submit:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+
+    /* FOOTER */
+    footer { background: #050505; border-top: 1px solid var(--border); padding: 3rem 4rem; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; }
+    .footer-logo { font-family: var(--font-head); font-size: 1.4rem; letter-spacing: 2px; color: var(--accent); }
+    .footer-logo span { color: var(--text); }
+    .footer-links { display: flex; gap: 1.8rem; flex-wrap: wrap; }
+    .footer-links a { color: var(--muted); text-decoration: none; font-size: .85rem; transition: color .2s; }
+    .footer-links a:hover { color: var(--accent); }
+    .footer-copy { color: var(--muted); font-size: .8rem; }
+
+    /* ANIMATIONS */
+    .fade-up { opacity: 0; transform: translateY(30px); transition: opacity .6s ease, transform .6s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 2rem; }
+      .nav-links { display: none; }
+      #inicio { padding: 7rem 2rem 4rem; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+      section { padding: 5rem 2rem; }
+      .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-item:first-child { grid-column: span 2; }
+      footer { padding: 2rem; }
+      .footer-inner { flex-direction: column; text-align: center; }
+      .form-row { grid-template-columns: 1fr; }
+      .pago-layout { grid-template-columns: 1fr; }
+      .order-summary { position: static; }
+      .pay-methods { grid-template-columns: 1fr; }
+      .stepper { max-width: 100%; }
+      .rw-date-row { grid-template-columns: 1fr; }
+      .rw-date-sep { display: none; }
+      .pricing-grid { grid-template-columns: 1fr 1fr; }
+      .data-col2 { grid-template-columns: 1fr; }
+      .data-col3 { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 500px) {
+      .pricing-grid { grid-template-columns: 1fr; }
+      .data-col3 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Email Sending Overlay -->
+  <div class="email-sending-overlay" id="emailOverlay">
+    <div class="email-sending-box">
+      <div class="email-sending-spinner"></div>
+      <div class="email-sending-title">ENVIANDO RESERVA</div>
+      <div class="email-sending-sub">Estamos procesando tu reserva y enviando los correos de confirmación. Por favor espera...</div>
+    </div>
+  </div>
+
+  <nav>
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+      <img src="Imagenes/logo vectorizado_Mesa de trabajo 1.png" alt="Logo" style="width: 70px; height: auto;">
+      <div class="nav-logo">PARKING<span> FÁCIL 05</span></div>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#pago">Reservar</a></li>
+      <li><a href="#galeria">Galería</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+    <a href="#pago" class="nav-cta">Reservar & Pagar</a>
+  </nav>
+
+  <!-- ===== INICIO ===== -->
+  <section id="inicio">
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+    <div class="hero-grid container">
+      <div class="hero-content fade-up">
+        <div class="hero-tag">📍 Aeropuerto Josep Tarradellas, Barcelona</div>
+        <h1 class="hero-title">TU AUTO<br/><em>SEGURO</em><br/>SIEMPRE</h1>
+        <p class="hero-sub">Parking Fácil 05 ofrece estacionamiento seguro, vigilado y de fácil acceso en el corazón de Barcelona. Tu tranquilidad es nuestra prioridad.</p>
+        <div class="hero-btns">
+          <a href="#pago" class="btn-primary">Reservar & Pagar</a>
+          <a href="#servicios" class="btn-outline">Ver servicios</a>
+        </div>
+        <div class="hero-stats">
+          <div><div class="stat-num">20H</div><div class="stat-label">Atención diaria</div></div>
+          <div><div class="stat-num">100%</div><div class="stat-label">Vigilado</div></div>
+          <div><div class="stat-num">+50</div><div class="stat-label">Plazas</div></div>
+        </div>
+      </div>
+      <div class="hero-visual fade-up">
+        <div class="hero-card flip-card">
+          <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <img src="Imagenes/tarjetafrente.png" alt="Tarjeta frente" class="card-image">
+        </div>
+        <div class="flip-card-back">
+          <img src="Imagenes/tarjetaatras.png" alt="Tarjeta atrás" class="card-image">
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SERVICIOS ===== -->
+  <section id="servicios">
+    <div class="container">
+      <div class="services-header fade-up">
+        <div class="section-label">Lo que ofrecemos</div>
+        <h2 class="section-title">SERVICIOS &<br/>TARIFAS</h2>
+        <p class="section-sub">Soluciones de estacionamiento pensadas para tu comodidad, desde paradas rápidas hasta mensualidades con ventajas exclusivas.</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card fade-up">
+          <div class="service-icon" style="display:flex;align-items:center;justify-content:center;">
+            <img src="Imagenes/seguridad.jpg" alt="Seguridad" style="width:1004px;height:144px;object-fit:contain;">
+          </div>
+          <div class="service-name">SEGURIDAD 24/7</div>
+          <div class="service-desc">Videovigilancia continua y acceso controlado para que tu vehículo esté siempre protegido.</div>
+        </div>
+        <div class="service-card fade-up">
+          <div class="service-icon" style="display:flex;align-items:center;justify-content:center;">
+            <img src="Imagenes/asistenciaparqueo.jpg" alt="Asistencia" style="width:1004px;height:144px;object-fit:contain;">
+          </div>
+          <div class="service-name">ASISTENCIA DE PARQUEO</div>
+          <div class="service-desc">Personal capacitado te guía y apoya al momento de estacionar tu vehículo.</div>
+        </div>
+        <div class="service-card fade-up">
+          <div class="service-icon" style="display:flex;align-items:center;justify-content:center;">
+            <img src="Imagenes/parking.png" alt="Plazas especiales" style="width:1004px;height:144px;object-fit:contain;">
+          </div>
+          <div class="service-name">PLAZAS ESPECIALES</div>
+          <div class="service-desc">Plazas adaptadas para vehículos grandes, furgonetas y personas con movilidad reducida.</div>
+        </div>
+        <div class="service-card fade-up">
+          <div class="service-icon" style="display:flex;align-items:center;justify-content:center;">
+            <img src="Imagenes/agendavirutal.png" alt="Reserva online" style="width:1004px;height:144px;object-fit:contain;">
+          </div>
+          <div class="service-name">RESERVA ONLINE</div>
+          <div class="service-desc">Reserva tu plaza con antelación desde cualquier dispositivo y sin complicaciones.</div>
+        </div>
+      </div>
+
+      <!-- TARIFAS — sin "más popular" -->
+      <div class="fade-up">
+        <div class="pricing-title">TARIFAS</div>
+        <div class="pricing-grid">
+          <div class="price-card" onclick="jumpToReserva(1)">
+            <div class="price-days-badge">1 día</div>
+            <div class="price-amount"><span class="currency">€</span>19</div>
+            <div class="price-per-day">~19 €/día</div>
+            <div class="price-cta-btn">Reservar <span class="arrow">→</span></div>
+          </div>
+          <div class="price-card" onclick="jumpToReserva(7)">
+            <div class="price-days-badge">7 días</div>
+            <div class="price-amount"><span class="currency">€</span>29</div>
+            <div class="price-per-day">~4,1 €/día</div>
+            <div class="price-cta-btn">Reservar <span class="arrow">→</span></div>
+          </div>
+          <div class="price-card" onclick="jumpToReserva(10)">
+            <div class="price-days-badge">10 días</div>
+            <div class="price-amount"><span class="currency">€</span>36</div>
+            <div class="price-per-day">~3,6 €/día</div>
+            <div class="price-cta-btn">Reservar <span class="arrow">→</span></div>
+          </div>
+          <div class="price-card" onclick="jumpToReserva(14)">
+            <div class="price-days-badge">14 días</div>
+            <div class="price-amount"><span class="currency">€</span>46</div>
+            <div class="price-per-day">~3,3 €/día</div>
+            <div class="price-cta-btn">Reservar <span class="arrow">→</span></div>
+          </div>
+          <div class="price-card" onclick="jumpToReserva(21)">
+            <div class="price-days-badge">21 días</div>
+            <div class="price-amount"><span class="currency">€</span>63</div>
+            <div class="price-per-day">~3 €/día</div>
+            <div class="price-cta-btn">Reservar <span class="arrow">→</span></div>
+          </div>
+          <div class="price-card" onclick="jumpToReserva(30)">
+            <div class="price-days-badge">30 días</div>
+            <div class="price-amount"><span class="currency">€</span>85</div>
+            <div class="price-per-day">~2,8 €/día</div>
+            <div class="price-cta-btn">Reservar <span class="arrow">→</span></div>
+          </div>
+        </div>
+        <p style="font-size:.78rem;color:var(--muted);margin-top:1.2rem;line-height:1.7;">
+          💡 <strong style="color:var(--text);">¿No encuentras tu combinación?</strong> Selecciona las fechas exactas en el formulario de reserva y calcularemos el precio automáticamente.
+          &nbsp;·&nbsp; Días adicionales: +10 €/día si no avisas con antelación.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PAGO ===== -->
+  <section id="pago">
+    <div class="container">
+      <div class="pago-header fade-up">
+        <div class="section-label">Reserva segura</div>
+        <h2 class="section-title">PAGO &<br/>RESERVA</h2>
+        <p class="section-sub">Completa tu reserva en minutos. Selecciona fechas, introduce tus datos y paga por transferencia, Bizum o en efectivo. Recibirás confirmación por correo automáticamente.</p>
+      </div>
+
+      <div class="stepper fade-up" id="stepper">
+        <div class="step active" id="st1"><div class="step-num">1</div><div class="step-label">Fechas</div></div>
+        <div class="step-line" id="line1"></div>
+        <div class="step" id="st2"><div class="step-num">2</div><div class="step-label">Datos</div></div>
+        <div class="step-line" id="line2"></div>
+        <div class="step" id="st3"><div class="step-num">3</div><div class="step-label">Pago</div></div>
+        <div class="step-line" id="line3"></div>
+        <div class="step" id="st4"><div class="step-num">4</div><div class="step-label">Confirmar</div></div>
+      </div>
+
+      <div class="pago-layout fade-up">
+        <div>
+
+          <!-- STEP 1 -->
+          <div class="pago-panel active" id="panel1">
+            <div class="pago-panel-title">¿Cuándo necesitas aparcar?</div>
+            <div class="reserva-widget">
+              <div class="rw-widget-header">
+                <div class="rw-widget-title">🅿️ PARKING FÁCIL 05</div>
+                <div class="rw-widget-sub">Aeropuerto Barcelona · El Prat de Llobregat · 04:00 – 00:00</div>
+              </div>
+              <div class="rw-body">
+                <div class="rw-horario-notice">
+                  🕐 <span>Horario: <strong>04:00 – 00:00</strong> todos los días · Fuera de horario llama al <strong>623 515 086</strong></span>
+                </div>
+                <div class="rw-date-block">
+                  <div class="rw-date-row">
+                    <div class="rw-date-cell" id="cellFechaEntrada" onclick="triggerPicker('fechaEntrada')">
+                      <label>✈️ Fecha de estacionamiento</label>
+                      <div class="rw-date-val placeholder" id="valFechaEntrada">Selecciona fecha</div>
+                      <input type="date" id="fechaEntrada" tabindex="-1" onchange="onDateChange('entrada')" />
+                    </div>
+                    <div class="rw-date-sep"></div>
+                    <div class="rw-date-cell" id="cellFechaSalida" onclick="triggerPicker('fechaSalida')">
+                      <label>🚗 Fecha de regreso</label>
+                      <div class="rw-date-val placeholder" id="valFechaSalida">Selecciona fecha</div>
+                      <input type="date" id="fechaSalida" tabindex="-1" onchange="onDateChange('salida')" />
+                    </div>
+                  </div>
+                  <div style="height:1px;background:var(--border);"></div>
+                  <div class="rw-date-row">
+                    <div class="rw-date-cell" onclick="document.getElementById('horaEntrada').focus()">
+                      <label for="horaEntrada">🕐 Hora de entrada</label>
+                      <select class="rw-time-select" id="horaEntrada" onchange="calcDuration()"></select>
+                    </div>
+                    <div class="rw-date-sep"></div>
+                    <div class="rw-date-cell" onclick="document.getElementById('horaSalida').focus()">
+                      <label for="horaSalida">🕐 Hora de salida</label>
+                      <select class="rw-time-select" id="horaSalida" onchange="calcDuration()"></select>
+                    </div>
+                  </div>
+                  <div class="rw-duration-bar">
+                    <span class="rw-duration-label">Duración estimada</span>
+                    <span class="rw-duration-value" id="durationText">—</span>
+                  </div>
+                </div>
+                <div class="rw-tariff-display" id="autoTariffDisplay">
+                  <div class="rw-tariff-label">Tarifa calculada automáticamente</div>
+                  <div class="rw-tariff-row">
+                    <div>
+                      <div class="rw-tariff-name" id="autoTariffName">—</div>
+                      <div class="rw-tariff-note" id="autoTariffNote">—</div>
+                    </div>
+                    <div class="rw-tariff-price" id="autoTariffPrice">—</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="step-nav" style="margin-top:1.5rem;">
+              <button class="btn-next" onclick="goStep(2)">Continuar con mis datos →</button>
+            </div>
+          </div>
+
+          <!-- STEP 2 -->
+          <div class="pago-panel" id="panel2">
+            <div class="pago-panel-title">Tus datos</div>
+
+            <div class="data-section">
+              <div class="data-section-header">✈️ Detalles del vuelo</div>
+              <div class="data-section-body">
+                <div class="data-subsection-title">Aparcamiento</div>
+                <div class="data-col2">
+                  <div class="pg-form-group">
+                    <label>Fecha y hora de entrega del vehículo</label>
+                    <input type="text" id="pFechaEntregaDisplay" readonly style="cursor:default;opacity:.7;" placeholder="Se rellena desde el paso anterior"/>
+                  </div>
+                  <div class="pg-form-group">
+                    <label>Número de vuelo de salida <span class="opt">(Opcional)</span></label>
+                    <input type="text" id="pVueloSalida" placeholder="Ej: VY1234" autocomplete="off"/>
+                  </div>
+                </div>
+                <div class="data-subsection-title" style="margin-top:1.2rem;">Regreso</div>
+                <div class="data-col2">
+                  <div class="pg-form-group">
+                    <label>Fecha y hora de aterrizaje en el aeropuerto</label>
+                    <input type="text" id="pFechaSalidaDisplay" readonly style="cursor:default;opacity:.7;" placeholder="Se rellena desde el paso anterior"/>
+                  </div>
+                  <div class="pg-form-group">
+                    <label>Número de vuelo de llegada <span class="opt">(Opcional)</span></label>
+                    <input type="text" id="pVueloLlegada" placeholder="Ej: IB5678" autocomplete="off"/>
+                  </div>
+                </div>
+                <div class="data-divider"></div>
+                <div class="data-subsection-title">Datos del vehículo</div>
+                <div class="data-col2">
+                  <div class="pg-form-group">
+                    <label>Matrícula *</label>
+                    <input type="text" id="pMatricula" placeholder="1234 ABC" style="text-transform:uppercase;" autocomplete="off"/>
+                    <span class="field-error" id="errMatricula">Este campo es obligatorio.</span>
+                  </div>
+                  <div class="pg-form-group">
+                    <label>Marca, tipo y color del vehículo</label>
+                    <input type="text" id="pVehiculo" placeholder="Ej: Seat León, negro" autocomplete="off"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="data-section">
+              <div class="data-section-header">👤 Tu información</div>
+              <div class="data-section-body">
+                <div class="data-col3">
+                  <div class="pg-form-group">
+                    <label>Nombre *</label>
+                    <input type="text" id="pNombre" placeholder="Juan" autocomplete="off"/>
+                    <span class="field-error" id="errNombre">Solo letras y espacios.</span>
+                  </div>
+                  <div class="pg-form-group">
+                    <label>Apellido</label>
+                    <input type="text" id="pApellido" placeholder="García" autocomplete="off"/>
+                  </div>
+                  <div class="pg-form-group">
+                    <label>Teléfono <span class="opt">(Opcional)</span></label>
+                    <input type="tel" id="pTel" placeholder="6XX XXX XXX" autocomplete="off"/>
+                    <span class="field-error" id="errTel">Solo se permiten números.</span>
+                  </div>
+                </div>
+                <div class="data-col2">
+                  <div class="pg-form-group">
+                    <label>Correo electrónico *</label>
+                    <input type="email" id="pEmail" placeholder="tu@correo.com" autocomplete="off"/>
+                    <span class="field-error" id="errEmail">Ingresa un correo válido.</span>
+                  </div>
+                  <div class="pg-form-group">
+                    <label>Número de personas</label>
+                    <select id="pPersonas">
+                      <option>1</option><option>2</option><option>3</option><option>4</option>
+                      <option>5</option><option>6</option><option>7</option><option>8</option><option value="9">9+</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="data-col2">
+                  <div class="pg-form-group">
+                    <label>Empresa <span class="opt">(Opcional)</span></label>
+                    <input type="text" id="pEmpresa" placeholder="Tu empresa S.L." autocomplete="off"/>
+                  </div>
+                  <div class="pg-form-group">
+                    <label>Email de facturación <span class="opt">(Opcional)</span></label>
+                    <input type="email" id="pEmailFactura" placeholder="facturacion@empresa.com" autocomplete="off"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="data-section">
+              <div class="data-section-header">📋 Información adicional</div>
+              <div class="data-section-body">
+                <div class="data-col2">
+                  <div class="pg-form-group">
+                    <label>Código de descuento <span class="opt">(Opcional)</span></label>
+                    <input type="text" id="pDescuento" placeholder="Ej: PARK10" autocomplete="off" style="text-transform:uppercase;"/>
+                  </div>
+                  <div></div>
+                </div>
+                <div class="pg-form-group">
+                  <label>Comentarios <span class="opt">(Opcional)</span></label>
+                  <textarea id="pComentarios" placeholder="Tus comentarios..."></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="step-nav">
+              <button class="btn-back" onclick="goStep(1)">← Atrás</button>
+              <button class="btn-next" onclick="goStep(3)">Método de pago →</button>
+            </div>
+          </div>
+
+          <!-- STEP 3 -->
+          <div class="pago-panel" id="panel3">
+            <div class="pago-panel-title">Método de pago</div>
+            <div class="pay-methods" id="payMethods">
+              <div class="pay-method selected" data-method="transferencia" onclick="selectMethod(this)">
+                <div class="pay-method-icon">🏦</div>
+                <div>
+                  <div class="pay-method-name">Transferencia</div>
+                  <div class="pay-method-sub">CaixaBank · IBAN</div>
+                </div>
+              </div>
+              <div class="pay-method" data-method="bizum" onclick="selectMethod(this)">
+                <div class="pay-method-icon" style="font-size:1.2rem;background:#007be5;color:#fff;width:34px;height:34px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:700;font-family:sans-serif;flex-shrink:0;">B</div>
+                <div>
+                  <div class="pay-method-name">Bizum</div>
+                  <div class="pay-method-sub">Pago inmediato</div>
+                </div>
+              </div>
+              <div class="pay-method" data-method="efectivo" onclick="selectMethod(this)">
+                <div class="pay-method-icon">💵</div>
+                <div>
+                  <div class="pay-method-name">Efectivo</div>
+                  <div class="pay-method-sub">Pago al llegar</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="transfer-box show" id="transferBox">
+              <div class="transfer-box-title">🏦 Datos bancarios</div>
+              <div class="transfer-row"><div class="transfer-key">Empresa</div><div class="transfer-val">Luxury Parking Wash, S.L.</div></div>
+              <div class="transfer-row"><div class="transfer-key">NIF</div><div class="transfer-val">B19765296</div></div>
+              <div class="transfer-row"><div class="transfer-key">Banco</div><div class="transfer-val">CaixaBank</div></div>
+              <div class="transfer-row">
+                <div class="transfer-key">IBAN</div>
+                <div class="transfer-val">
+                  <span class="iban-display">ES67 2100 0072 6802 0122 4080</span>
+                  <button class="copy-btn" onclick="copyIBAN()">Copiar</button>
+                </div>
+              </div>
+              <div class="transfer-row">
+                <div class="transfer-key">Concepto</div>
+                <div class="transfer-val" id="transConcepto" style="font-size:.82rem;color:var(--muted);">Reserva + Matrícula + Fecha</div>
+              </div>
+              <div class="comprobante-section">
+                <div class="comprobante-label">
+                  📎 Adjuntar comprobante de transferencia
+                  <span class="badge-req">Recomendado</span>
+                </div>
+                <div class="upload-zone" id="uploadZoneTransfer"
+                  ondragover="handleDragOver(event,'transfer')"
+                  ondragleave="handleDragLeave(event,'transfer')"
+                  ondrop="handleDrop(event,'transfer')">
+                  <input type="file" id="fileTransfer" accept="image/*,application/pdf" onchange="handleFileSelect(event,'transfer')"/>
+                  <div class="upload-icon">📤</div>
+                  <div class="upload-text"><strong>Arrastra aquí</strong> o haz clic para subir<br/>PNG, JPG o PDF · Máx. 5 MB</div>
+                </div>
+                <div class="upload-preview" id="previewTransfer">
+                  <img id="previewImgTransfer" src="" alt="Comprobante"/>
+                  <button class="remove-btn" onclick="removeFile('transfer')">✕</button>
+                  <div class="file-name" id="fileNameTransfer"></div>
+                </div>
+                <div class="upload-success-badge" id="badgeTransfer">
+                  <span>✅</span> Comprobante adjuntado — se enviará junto a tu reserva
+                </div>
+              </div>
+              <div style="margin-top:1.2rem;padding:.8rem 1rem;background:rgba(240,180,41,0.06);border-radius:8px;border:1px dashed rgba(240,180,41,0.25);">
+                <p style="font-size:.78rem;color:var(--muted);line-height:1.7;">⚠️ <strong style="color:var(--text);">Importante:</strong> Indica tu matrícula y fecha en el concepto. Recibirás confirmación automáticamente por correo.</p>
+              </div>
+            </div>
+
+            <div class="bizum-box" id="bizumBox">
+              <div class="bizum-box-title">
+                <span style="background:#007be5;color:#fff;width:28px;height:28px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;flex-shrink:0;">B</span>
+                Pago con Bizum
+              </div>
+              <div class="bizum-highlight">
+                <div>
+                  <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:.3rem;">Número de teléfono</div>
+                  <div class="bizum-phone-display">+34 623 49 13 13</div>
+                </div>
+                <button class="copy-btn" style="height:fit-content;" onclick="copyBizum()">Copiar número</button>
+              </div>
+              <div class="bizum-steps">
+                <div class="bizum-step"><div class="bizum-step-num">1</div><div class="bizum-step-text">Abre tu app bancaria y accede a la sección <strong>Bizum</strong>.</div></div>
+                <div class="bizum-step"><div class="bizum-step-num">2</div><div class="bizum-step-text">Introduce el número <strong>+34 623 49 13 13</strong> y el importe total de tu reserva.</div></div>
+                <div class="bizum-step"><div class="bizum-step-num">3</div><div class="bizum-step-text">Concepto: <strong id="bizumConcepto">Reserva PF05 · MATRÍCULA · FECHA</strong></div></div>
+                <div class="bizum-step"><div class="bizum-step-num">4</div><div class="bizum-step-text">Adjunta la captura del comprobante en el formulario de abajo.</div></div>
+              </div>
+              <div class="comprobante-section">
+                <div class="comprobante-label">
+                  📎 Comprobante de pago Bizum
+                  <span class="badge-req" style="background:rgba(239,68,68,0.12);border-color:rgba(239,68,68,0.3);color:#ef4444;">Obligatorio</span>
+                </div>
+                <div class="upload-zone" id="uploadZoneBizum"
+                  ondragover="handleDragOver(event,'bizum')"
+                  ondragleave="handleDragLeave(event,'bizum')"
+                  ondrop="handleDrop(event,'bizum')">
+                  <input type="file" id="fileBizum" accept="image/*" onchange="handleFileSelect(event,'bizum')"/>
+                  <div class="upload-icon">📱</div>
+                  <div class="upload-text"><strong>Captura de pantalla del Bizum</strong><br/>Arrastra aquí o haz clic · PNG o JPG</div>
+                </div>
+                <div class="upload-preview" id="previewBizum">
+                  <img id="previewImgBizum" src="" alt="Comprobante Bizum"/>
+                  <button class="remove-btn" onclick="removeFile('bizum')">✕</button>
+                  <div class="file-name" id="fileNameBizum"></div>
+                </div>
+                <div class="upload-success-badge" id="badgeBizum">
+                  <span>✅</span> Captura adjuntada — se enviará con tu reserva
+                </div>
+              </div>
+              <div style="margin-top:1.2rem;padding:.8rem 1rem;background:rgba(0,123,229,0.06);border-radius:8px;border:1px dashed rgba(0,123,229,0.25);">
+                <p style="font-size:.78rem;color:var(--muted);line-height:1.7;">ℹ️ <strong style="color:var(--text);">Bizum solo en España.</strong> Adjuntar la captura es obligatorio para confirmar tu plaza.</p>
+              </div>
+            </div>
+
+            <div class="cash-box" id="cashBox">
+              <p>💵 <strong>Pago en efectivo al llegar al parking.</strong><br/><br/>
+              Dirígete a recepción en <strong>08820 El Prat de Llobregat, Barcelona</strong> y abona el importe al personal de turno.<br/><br/>
+              Horario de caja: <strong>Todos los días 04:00 – 00:00</strong><br/>
+              Fuera de horario: <strong>623 515 086</strong><br/><br/>
+              <span style="color:var(--accent);">✉️ Recibirás un correo de confirmación de tu reserva automáticamente.</span></p>
+            </div>
+
+            <div class="step-nav">
+              <button class="btn-back" onclick="goStep(2)">← Atrás</button>
+              <button class="btn-next" onclick="goStep(4)">Revisar reserva →</button>
+            </div>
+          </div>
+
+          <!-- STEP 4 -->
+          <div class="pago-panel" id="panel4">
+            <div class="pago-panel-title">Resumen de reserva</div>
+            <div class="confirm-box" id="confirmBox"></div>
+            <div style="background:rgba(34,197,94,0.05);border:1px dashed rgba(34,197,94,0.25);border-radius:10px;padding:1rem 1.2rem;margin-bottom:1rem;">
+              <p style="font-size:.82rem;color:var(--muted);line-height:1.8;">✉️ Al confirmar se enviarán <strong style="color:var(--text);">correos de confirmación automáticamente</strong>: uno a tu email y otro al equipo de Parking Fácil 05.</p>
+            </div>
+            <div style="background:rgba(240,180,41,0.06);border:1px dashed rgba(240,180,41,0.3);border-radius:10px;padding:1rem 1.2rem;margin-bottom:1.5rem;">
+              <p style="font-size:.82rem;color:var(--muted);line-height:1.8;">Al confirmar aceptas que tu reserva quedará <strong style="color:var(--text);">pendiente de verificación de pago</strong>. Confirmación definitiva en máximo <strong style="color:var(--text);">2 horas</strong>.</p>
+            </div>
+            <div class="step-nav">
+              <button class="btn-back" onclick="goStep(3)">← Atrás</button>
+              <button class="btn-next" onclick="finalize()" id="btnFinalizar">✅ Confirmar y enviar reserva</button>
+            </div>
+          </div>
+
+          <!-- SUCCESS -->
+          <div class="success-screen" id="successScreen">
+            <div class="success-icon">✅</div>
+            <div class="success-title">¡RESERVA ENVIADA!</div>
+            <p class="success-sub">Hemos recibido tu solicitud de reserva y enviado correos de confirmación automáticamente.</p>
+            <div class="success-emails-sent">
+              <span>📧</span> Correos enviados a <strong id="emailSentTo" style="margin:0 .3rem;"></strong> y al equipo de Parking Fácil 05
+            </div>
+            <div class="success-ref">
+              <div class="success-ref-label">Número de referencia</div>
+              <div class="success-ref-num" id="refNum">—</div>
+            </div>
+            <p style="font-size:.82rem;color:var(--muted);margin-bottom:2rem;">Revisa tu bandeja de entrada (y la carpeta de spam). ¿Dudas? Llama al <strong style="color:var(--accent);">623 515 086</strong></p>
+            <a href="#inicio" class="btn-primary" onclick="resetForm()">Volver al inicio</a>
+          </div>
+
+        </div>
+
+        <!-- Order summary -->
+        <div class="order-summary fade-up">
+          <div class="order-summary-title">🅿️ Tu reserva</div>
+          <div class="summary-row"><div class="summary-key">Tarifa</div><div class="summary-val" id="sumTarifa">—</div></div>
+          <div class="summary-row"><div class="summary-key">Duración</div><div class="summary-val" id="sumDuracion">—</div></div>
+          <div class="summary-row"><div class="summary-key">Entrada</div><div class="summary-val" id="sumFechaEntrada">—</div></div>
+          <div class="summary-row"><div class="summary-key">Salida</div><div class="summary-val" id="sumFechaSalida">—</div></div>
+          <div class="summary-row"><div class="summary-key">Método de pago</div><div class="summary-val" id="sumMetodo">Transferencia</div></div>
+          <div class="summary-total">
+            <div class="summary-total-label">TOTAL</div>
+            <div class="summary-total-num" id="sumTotal">—</div>
+          </div>
+          <div class="summary-badge"><span>🔒</span> Reserva segura y protegida</div>
+          <div class="summary-divider"></div>
+          <div class="company-info">
+            <strong>Datos fiscales</strong>
+            Luxury Parking Wash, S.L.<br/>
+            NIF: B19765296<br/>
+            08820 El Prat de Llobregat<br/>
+            Barcelona, España
+          </div>
+          <div class="summary-divider"></div>
+          <div class="summary-legal">
+            <strong>CaixaBank / Bizum</strong><br/>
+            IBAN: ES67 2100 0072 6802 0122 4080<br/>
+            Bizum: +34 623 49 13 13
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== GALERIA ===== -->
+  <section id="galeria">
+    <div class="container">
+      <div class="gallery-header fade-up">
+        <div class="section-label">Nuestras instalaciones</div>
+        <h2 class="section-title">GALERÍA</h2>
+        <p class="section-sub">Conoce nuestras instalaciones modernas, limpias y bien señalizadas.</p>
+      </div>
+      <div class="gallery-grid fade-up">
+        <div class="gallery-item g1" onclick="openModal(this)">
+          <img src="Imagenes/WhatsApp Image 2026-03-23 at 19.26.18.jpeg" alt="Plazas interiores" style="width:100%;height:100%;object-fit:cover;">
+          <div class="overlay"><div class="overlay-text">Plazas interiores</div></div>
+        </div>
+        <div class="gallery-item g2" onclick="openModal(this)">
+          <img src="Imagenes/WhatsApp Image 2026-03-23 at 19.26.19.jpeg" alt="Zonas amplias" style="width:100%;height:100%;object-fit:cover;">
+          <div class="overlay"><div class="overlay-text">Zonas amplias</div></div>
+        </div>
+        <div class="gallery-item g3" onclick="openModal(this)">
+          <img src="Imagenes/WhatsApp Image 2026-03-23 at 19.26.19 (2).jpeg" alt="Sistema de vigilancia" style="width:100%;height:100%;object-fit:cover;">
+          <div class="overlay"><div class="overlay-text">Sistema de vigilancia</div></div>
+        </div>
+        <div class="gallery-item g4" onclick="openModal(this)">
+          <img src="Imagenes/WhatsApp Image 2026-03-23 at 19.26.18 (1).jpeg" alt="Cupos amplios" style="width:100%;height:100%;object-fit:cover;">
+          <div class="overlay"><div class="overlay-text">Cupos amplios</div></div>
+        </div>
+        <div class="gallery-item g5" onclick="openModal(this)">
+          <img src="Imagenes/WhatsApp Image 2026-03-23 at 19.26.19 (1).jpeg" alt="Señalización interior" style="width:100%;height:100%;object-fit:cover;">
+          <div class="overlay"><div class="overlay-text">Señalización interior</div></div>
+        </div>
+        <div class="gallery-item g1" onclick="openModal(this)">
+          <img src="Imagenes/WhatsApp Image 2026-03-23 at 19.26.18.jpeg" alt="Buena iluminación" style="width:100%;height:100%;object-fit:cover;">
+          <div class="overlay"><div class="overlay-text">Buena iluminación</div></div>
+        </div>
+      </div>
+      <div id="imageModal" class="modal" onclick="closeModal(event)">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div class="modal-container">
+          <img class="modal-content" id="modalImage" />
+          <div id="caption"></div>
+        </div>
+      </div>
+      <style>
+        .modal { display:none;position:fixed;z-index:999;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.95); }
+        .modal.open { display:flex;align-items:center;justify-content:center; }
+        .modal-container { position:relative; }
+        .modal-content { max-width:90vw;max-height:90vh;object-fit:contain;display:block; }
+        .modal .close { position:absolute;top:20px;right:30px;color:var(--accent);font-size:2rem;cursor:pointer; }
+        .modal .close:hover { color:var(--text); }
+        #caption { color:var(--text);text-align:center;padding:1.5rem;font-size:1.1rem;opacity:0;transition:opacity .3s; }
+        .modal-container:hover #caption { opacity:1; }
+      </style>
+    </div>
+  </section>
+
+  <!-- ===== CONTACTO ===== -->
+  <section id="contacto">
+    <div class="container">
+      <div class="fade-up" style="margin-bottom:3.5rem">
+        <div class="section-label">Estamos aquí</div>
+        <h2 class="section-title">CONTACTO &<br/>RESERVAS</h2>
+        <p class="section-sub">Escríbenos o llámanos para reservar tu plaza o resolver cualquier duda. Responderemos a la brevedad.</p>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-info fade-up">
+          <div class="contact-item">
+            <div class="contact-icon">📍</div>
+            <div>
+              <div class="contact-label">Dirección</div>
+              <div class="contact-value">Barcelona, España<br/>08820 El Prat de Llobregat</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📞</div>
+            <div>
+              <div class="contact-label">Teléfono</div>
+              <div class="contact-value">623 515 086</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">✉️</div>
+            <div>
+              <div class="contact-label">Correos</div>
+              <div class="contact-value">
+                administracion@parkingfacil05.es<br/>
+                reservas@parkingfacil05.es
+              </div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">🕐</div>
+            <div>
+              <div class="contact-label">Horario de atención</div>
+              <div class="contact-value">Todos los días: 04:00 – 00:00</div>
+            </div>
+          </div>
+        </div>
+        <div class="fade-up">
+          <form class="contact-form" id="contactForm" onsubmit="handleContactSubmit(event)">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Nombre *</label>
+                <input type="text" id="cNombre" placeholder="Tu nombre" required />
+              </div>
+              <div class="form-group">
+                <label>Teléfono</label>
+                <input type="tel" id="cTel" placeholder="6XX XXX XXX" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Correo electrónico *</label>
+              <input type="email" id="cEmail" placeholder="tu@correo.com" required />
+            </div>
+            <div class="form-group">
+              <label>Tipo de consulta</label>
+              <select id="cTipo">
+                <option value="">Selecciona una opción</option>
+                <option>Reserva de plaza</option>
+                <option>Mensualidad</option>
+                <option>Información general</option>
+                <option>Contabilidad / Facturación</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Mensaje</label>
+              <textarea id="cMensaje" placeholder="Cuéntanos en qué podemos ayudarte..."></textarea>
+            </div>
+            <button type="submit" class="btn-submit" id="contactSubmitBtn">Enviar mensaje →</button>
+            <p style="font-size:.75rem;color:var(--muted);margin-top:.5rem;">✉️ Tu mensaje se enviará al equipo de Parking Fácil 05 y recibirás una copia en tu correo.</p>
+          </form>
+        </div>
+        <div class="map-container fade-up" style="width:100%;border-radius:10px;overflow:hidden;border:1px solid var(--border);height:400px;grid-column:1/-1;">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2993.656521!2d2.0729!3d41.2975!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a4a95f0d5c5c5d%3A0x1234567890abcdef!2sTerminal%201%2C%20Barcelona-El%20Prat%20Airport!5e0!3m2!1ses!2ses!4v1234567890" width="100%" height="100%" style="border:none;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">PARKING<span> FÁCIL 05</span></div>
+      <div class="footer-links">
+        <a href="#inicio">Inicio</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#pago">Reservar</a>
+        <a href="#galeria">Galería</a>
+        <a href="#contacto">Contacto</a>
+      </div>
+      <div class="footer-copy">© 2025 Luxury Parking Wash, S.L. — NIF B19765296. Todos los derechos reservados.</div>
+    </div>
+  </footer>
+
+  <script>
+  // ═══════════════════════════════════════════════════
+  //  CONFIGURACIÓN — solo PHP, sin EmailJS
+  // ═══════════════════════════════════════════════════
+  const PHP_ENDPOINT = 'send_email.php';
+
+  // ── Generar opciones de hora ──
+  function buildTimeOptions(selectEl, defaultVal) {
+    for (let h = 0; h < 24; h++) {
+      for (let m = 0; m < 60; m += 30) {
+        const hh = String(h).padStart(2,'0');
+        const mm = String(m).padStart(2,'0');
+        const val = hh + ':' + mm;
+        const opt = document.createElement('option');
+        opt.value = val; opt.textContent = val;
+        if (val === defaultVal) opt.selected = true;
+        selectEl.appendChild(opt);
+      }
+    }
+  }
+  buildTimeOptions(document.getElementById('horaEntrada'), '08:00');
+  buildTimeOptions(document.getElementById('horaSalida'),  '18:00');
+
+  // ── Tarifas ──
+  const PRICE_TABLE = [
+    {days:1,price:19},{days:2,price:22},{days:3,price:25},{days:4,price:27},{days:5,price:27},
+    {days:6,price:28},{days:7,price:29},{days:8,price:32},{days:9,price:34},{days:10,price:36},
+    {days:11,price:38},{days:12,price:40},{days:13,price:43},{days:14,price:46},{days:15,price:48},
+    {days:16,price:50},{days:17,price:52},{days:18,price:54},{days:19,price:56},{days:20,price:58},
+    {days:21,price:63},{days:22,price:65},{days:23,price:67},{days:24,price:69},{days:25,price:71},
+    {days:26,price:73},{days:27,price:75},{days:28,price:77},{days:29,price:81},{days:30,price:85},
+  ];
+
+  function getPriceForDays(days) {
+    if (days <= 0) return { price: 0, label: '—' };
+    const d = Math.ceil(days);
+    const entry = PRICE_TABLE.find(e => e.days >= d);
+    if (entry) return { price: entry.price, label: entry.days + (entry.days === 1 ? ' día' : ' días') };
+    const base = PRICE_TABLE[PRICE_TABLE.length - 1];
+    return { price: base.price + (d - base.days) * 10, label: d + ' días' };
+  }
+
+  // ── Estado global ──
+  let state = {
+    precio:0, duracionDias:0, duracionTexto:'—',
+    fechaEntrada:'', horaEntrada:'08:00',
+    fechaSalida:'',  horaSalida:'18:00',
+    nombre:'', apellido:'', tel:'', email:'', matricula:'',
+    vehiculo:'', vueloSalida:'', vueloLlegada:'',
+    personas:'1', empresa:'', emailFactura:'',
+    descuento:'', comentarios:'',
+    metodo:'transferencia',
+    fileTransfer:null, fileTransferB64:'',
+    fileBizum:null,    fileBizumB64:'',
+  };
+
+  const today = new Date();
+  const todayStr = today.toISOString().split('T')[0];
+
+  // ── Fade observer ──
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // ── Date picker ──
+  function triggerPicker(inputId) {
+    const input = document.getElementById(inputId);
+    try { input.showPicker(); } catch(e) { input.click(); }
+  }
+
+  function formatDateDisplay(dateStr) {
+    if (!dateStr) return null;
+    const [y,m,d] = dateStr.split('-').map(Number);
+    const dt = new Date(y, m-1, d);
+    const days   = ['dom','lun','mar','mié','jue','vie','sáb'];
+    const months = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+    return days[dt.getDay()] + ' ' + d + ' ' + months[m-1] + ' ' + y;
+  }
+
+  function onDateChange(which) {
+    if (which === 'entrada') {
+      const val = document.getElementById('fechaEntrada').value;
+      state.fechaEntrada = val;
+      const display = document.getElementById('valFechaEntrada');
+      display.textContent = val ? formatDateDisplay(val) : 'Selecciona fecha';
+      display.classList.toggle('placeholder', !val);
+    } else {
+      const val = document.getElementById('fechaSalida').value;
+      state.fechaSalida = val;
+      const display = document.getElementById('valFechaSalida');
+      display.textContent = val ? formatDateDisplay(val) : 'Selecciona fecha';
+      display.classList.toggle('placeholder', !val);
+    }
+    calcDuration();
+    syncDateDisplayFields();
+  }
+
+  function syncDateDisplayFields() {
+    const e = document.getElementById('pFechaEntregaDisplay');
+    const s = document.getElementById('pFechaSalidaDisplay');
+    if (e) e.value = state.fechaEntrada ? (formatDateDisplay(state.fechaEntrada) + ' · ' + state.horaEntrada) : '';
+    if (s) s.value = state.fechaSalida  ? (formatDateDisplay(state.fechaSalida)  + ' · ' + state.horaSalida)  : '';
+  }
+
+  // ── Input filters ──
+  ['pNombre','pApellido'].forEach(id => {
+    document.getElementById(id).addEventListener('input', function() {
+      this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚüÜñÑàèìòùÀÈÌÒÙ\s]/g, '');
+    });
+  });
+  document.getElementById('pTel').addEventListener('input', function() {
+    this.value = this.value.replace(/[^0-9\s\+\-]/g, '');
+  });
+  document.getElementById('pDescuento').addEventListener('input', function() {
+    this.value = this.value.toUpperCase();
+  });
+  document.getElementById('pMatricula').addEventListener('input', function() {
+    this.value = this.value.toUpperCase();
+    updateSummary();
+  });
+  document.getElementById('cNombre').addEventListener('input', function() {
+    this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚüÜñÑàèìòùÀÈÌÒÙ\s]/g, '');
+  });
+  document.getElementById('cTel').addEventListener('input', function() {
+    this.value = this.value.replace(/[^0-9\s\+\-]/g, '');
+  });
+
+  function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+  function showError(id, show) {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('show', show);
+  }
+  function setInputError(id, hasError) {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('input-error', hasError);
+  }
+
+  // ── Calcular duración ──
+  function calcDuration() {
+    const fe = state.fechaEntrada || document.getElementById('fechaEntrada').value;
+    const he = document.getElementById('horaEntrada').value || '08:00';
+    const fs = state.fechaSalida  || document.getElementById('fechaSalida').value;
+    const hs = document.getElementById('horaSalida').value  || '18:00';
+    state.horaEntrada = he; state.horaSalida = hs;
+    syncDateDisplayFields();
+
+    if (!fe || !fs) {
+      state.duracionDias=0; state.duracionTexto='—'; state.precio=0;
+      document.getElementById('durationText').textContent = '—';
+      document.getElementById('autoTariffDisplay').style.display = 'none';
+      updateSummary(); return;
+    }
+
+    const dtE   = new Date(fe + 'T' + he);
+    const dtS   = new Date(fs + 'T' + hs);
+    const diffMs = dtS - dtE;
+
+    if (diffMs <= 0) {
+      document.getElementById('durationText').textContent = '⚠️ Fecha salida inválida';
+      document.getElementById('autoTariffDisplay').style.display = 'none';
+      state.precio=0; updateSummary(); return;
+    }
+
+    const totalHoras    = diffMs / (1000*60*60);
+    const diasExactos   = totalHoras / 24;
+    const diasRedondeados = Math.ceil(diasExactos);
+    state.duracionDias  = diasRedondeados;
+
+    const diasEnteros = Math.floor(diasExactos);
+    const horasRest   = Math.round(totalHoras % 24);
+    if (diasEnteros === 0) {
+      state.duracionTexto = horasRest + ' hora' + (horasRest !== 1 ? 's' : '');
+    } else if (horasRest === 0) {
+      state.duracionTexto = diasEnteros + ' día' + (diasEnteros !== 1 ? 's' : '');
+    } else {
+      state.duracionTexto = diasEnteros + ' día' + (diasEnteros !== 1 ? 's' : '') + ' y ' + horasRest + 'h';
+    }
+    document.getElementById('durationText').textContent = state.duracionTexto;
+
+    const calc = getPriceForDays(diasRedondeados);
+    state.precio = calc.price;
+
+    const display = document.getElementById('autoTariffDisplay');
+    display.style.display = 'block';
+    document.getElementById('autoTariffName').textContent = calc.label;
+    document.getElementById('autoTariffNote').textContent = 'Precio fijo · días adicionales: +10 €/día';
+    document.getElementById('autoTariffPrice').innerHTML  = calc.price + ' <em>€ total</em>';
+
+    updateSummary();
+  }
+
+  function jumpToReserva(dias) {
+    document.getElementById('pago').scrollIntoView({ behavior: 'smooth' });
+    setTimeout(() => {
+      const entrada = todayStr;
+      const salida  = new Date(today);
+      salida.setDate(salida.getDate() + dias);
+      const salidaStr = salida.toISOString().split('T')[0];
+
+      document.getElementById('fechaEntrada').value = entrada;
+      document.getElementById('fechaSalida').value  = salidaStr;
+      state.fechaEntrada = entrada; state.fechaSalida = salidaStr;
+
+      const ve = document.getElementById('valFechaEntrada');
+      const vs = document.getElementById('valFechaSalida');
+      ve.textContent = formatDateDisplay(entrada); ve.classList.remove('placeholder');
+      vs.textContent = formatDateDisplay(salidaStr); vs.classList.remove('placeholder');
+
+      calcDuration();
+    }, 500);
+  }
+
+  function updateSummary() {
+    const mat = document.getElementById('pMatricula') ? document.getElementById('pMatricula').value : '';
+    const fmtE = state.fechaEntrada ? (formatDateDisplay(state.fechaEntrada) + ' · ' + state.horaEntrada) : '—';
+    const fmtS = state.fechaSalida  ? (formatDateDisplay(state.fechaSalida)  + ' · ' + state.horaSalida)  : '—';
+    document.getElementById('sumFechaEntrada').textContent = fmtE;
+    document.getElementById('sumFechaSalida').textContent  = fmtS;
+    document.getElementById('sumDuracion').textContent = state.duracionTexto || '—';
+    document.getElementById('sumTarifa').textContent = state.precio > 0 ? state.duracionDias + (state.duracionDias===1?' día':' días') : '—';
+    document.getElementById('sumTotal').textContent = state.precio > 0 ? state.precio.toFixed(2) + '€' : '—';
+
+    const concepto = 'Reserva PF05 · ' + (mat || 'MATRÍCULA') + ' · ' + (state.fechaEntrada || 'FECHA');
+    const transConc = document.getElementById('transConcepto');
+    if (transConc) transConc.textContent = concepto;
+    const bizumConc = document.getElementById('bizumConcepto');
+    if (bizumConc) bizumConc.textContent = concepto;
+  }
+
+  calcDuration();
+  document.getElementById('horaEntrada').addEventListener('change', calcDuration);
+  document.getElementById('horaSalida').addEventListener('change', calcDuration);
+
+  // ── File upload ──
+  function handleFileSelect(event, type) {
+    const file = event.target.files[0];
+    if (file) processFile(file, type);
+  }
+  function handleDragOver(event, type) {
+    event.preventDefault();
+    document.getElementById('uploadZone' + cap(type)).classList.add('dragover');
+  }
+  function handleDragLeave(event, type) {
+    document.getElementById('uploadZone' + cap(type)).classList.remove('dragover');
+  }
+  function handleDrop(event, type) {
+    event.preventDefault();
+    document.getElementById('uploadZone' + cap(type)).classList.remove('dragover');
+    const file = event.dataTransfer.files[0];
+    if (file) processFile(file, type);
+  }
+  function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+  function processFile(file, type) {
+    if (file.size > 5 * 1024 * 1024) { alert('El archivo es demasiado grande. Máximo 5 MB.'); return; }
+    const isImage = file.type.startsWith('image/');
+    const reader  = new FileReader();
+    reader.onload = function(e) {
+      const b64 = e.target.result;
+      if (type === 'transfer') { state.fileTransfer = file; state.fileTransferB64 = b64; }
+      else { state.fileBizum = file; state.fileBizumB64 = b64; }
+      document.getElementById('preview'    + cap(type)).classList.add('show');
+      document.getElementById('badge'      + cap(type)).classList.add('show');
+      document.getElementById('fileName'   + cap(type)).textContent = file.name;
+      const previewImg = document.getElementById('previewImg' + cap(type));
+      if (isImage) { previewImg.src = b64; previewImg.style.display = 'block'; }
+      else { previewImg.style.display = 'none'; }
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function removeFile(type) {
+    if (type === 'transfer') { state.fileTransfer=null; state.fileTransferB64=''; document.getElementById('fileTransfer').value=''; }
+    else { state.fileBizum=null; state.fileBizumB64=''; document.getElementById('fileBizum').value=''; }
+    document.getElementById('preview' + cap(type)).classList.remove('show');
+    document.getElementById('badge'   + cap(type)).classList.remove('show');
+  }
+
+  // ── Stepper ──
+  function goStep(n) {
+    if (n === 2) {
+      if (!state.precio || !state.fechaEntrada || !state.fechaSalida) {
+        alert('Por favor, selecciona las fechas de entrada y salida para calcular el precio.');
+        return;
+      }
+      syncDateDisplayFields();
+    }
+
+    if (n === 3) {
+      const nombre    = document.getElementById('pNombre').value.trim();
+      const email     = document.getElementById('pEmail').value.trim();
+      const tel       = document.getElementById('pTel').value.trim();
+      const matricula = document.getElementById('pMatricula').value.trim();
+      let hasError = false;
+
+      const nombreOk = nombre.length > 0 && /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑàèìòùÀÈÌÒÙ\s]+$/.test(nombre);
+      showError('errNombre', !nombreOk); setInputError('pNombre', !nombreOk);
+      if (!nombreOk) hasError = true;
+
+      const emailOk = isValidEmail(email);
+      showError('errEmail', !emailOk); setInputError('pEmail', !emailOk);
+      if (!emailOk) hasError = true;
+
+      if (tel.length > 0) {
+        const telOk = /^[0-9\s\+\-]+$/.test(tel);
+        showError('errTel', !telOk); setInputError('pTel', !telOk);
+        if (!telOk) hasError = true;
+      }
+
+      const matriculaOk = matricula.length > 0;
+      showError('errMatricula', !matriculaOk); setInputError('pMatricula', !matriculaOk);
+      if (!matriculaOk) hasError = true;
+
+      if (hasError) return;
+
+      state.nombre       = nombre;
+      state.apellido     = document.getElementById('pApellido').value.trim();
+      state.email        = email;
+      state.tel          = tel;
+      state.matricula    = matricula;
+      state.vehiculo     = document.getElementById('pVehiculo').value.trim();
+      state.vueloSalida  = document.getElementById('pVueloSalida').value.trim();
+      state.vueloLlegada = document.getElementById('pVueloLlegada').value.trim();
+      state.personas     = document.getElementById('pPersonas').value;
+      state.empresa      = document.getElementById('pEmpresa').value.trim();
+      state.emailFactura = document.getElementById('pEmailFactura').value.trim();
+      state.descuento    = document.getElementById('pDescuento').value.trim();
+      state.comentarios  = document.getElementById('pComentarios').value.trim();
+      updateSummary();
+    }
+
+    if (n === 4 && state.metodo === 'bizum' && !state.fileBizum) {
+      alert('⚠️ Por favor adjunta la captura de pantalla del comprobante de Bizum para continuar.');
+      return;
+    }
+
+    if (n === 4) buildConfirm();
+
+    document.querySelectorAll('.pago-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('successScreen').style.display = 'none';
+    document.getElementById('panel' + n).classList.add('active');
+
+    for (let i = 1; i <= 4; i++) {
+      const st  = document.getElementById('st' + i);
+      const num = st.querySelector('.step-num');
+      st.classList.remove('active', 'done');
+      if (i < n) { st.classList.add('done'); num.textContent = '✓'; }
+      else if (i === n) { st.classList.add('active'); num.textContent = i; }
+      else { num.textContent = i; }
+      if (i < 4) document.getElementById('line' + i).classList.toggle('done', i < n);
+    }
+    updateSummary();
+    window.scrollTo({ top: document.getElementById('pago').offsetTop - 80, behavior: 'smooth' });
+  }
+
+  function selectMethod(el) {
+    document.querySelectorAll('.pay-method').forEach(m => m.classList.remove('selected'));
+    el.classList.add('selected');
+    state.metodo = el.dataset.method;
+    document.getElementById('transferBox').classList.toggle('show', state.metodo === 'transferencia');
+    document.getElementById('bizumBox').classList.toggle('show', state.metodo === 'bizum');
+    document.getElementById('cashBox').classList.toggle('show', state.metodo === 'efectivo');
+    const labels = { transferencia: 'Transferencia bancaria', bizum: 'Bizum (+34 623 49 13 13)', efectivo: 'Efectivo en parking' };
+    document.getElementById('sumMetodo').textContent = labels[state.metodo];
+  }
+
+  function buildConfirm() {
+    const metodoLabels = { transferencia: 'Transferencia bancaria (CaixaBank)', bizum: 'Bizum (+34 623 49 13 13)', efectivo: 'Efectivo en parking' };
+    const total        = state.precio.toFixed(2);
+    const comprobante  = (state.metodo === 'bizum' && state.fileBizum)
+      ? '✅ Captura adjuntada: ' + state.fileBizum.name
+      : (state.metodo === 'transferencia' && state.fileTransfer)
+        ? '✅ Justificante adjuntado: ' + state.fileTransfer.name
+        : '—';
+    const nombreCompleto = state.nombre + (state.apellido ? ' ' + state.apellido : '');
+    const rows = [
+      ['Días reservados',   state.duracionDias + (state.duracionDias===1?' día':' días')],
+      ['Duración exacta',   state.duracionTexto],
+      ['Fecha de entrada',  formatDateDisplay(state.fechaEntrada) + ' · ' + state.horaEntrada],
+      ['Fecha de salida',   state.fechaSalida ? (formatDateDisplay(state.fechaSalida) + ' · ' + state.horaSalida) : '—'],
+      ['Nombre',            nombreCompleto],
+      ['Teléfono',          state.tel || '—'],
+      ['Email',             state.email],
+      ['Matrícula',         state.matricula.toUpperCase()],
+      ['Vehículo',          state.vehiculo || '—'],
+      ['Vuelo salida',      state.vueloSalida  || '—'],
+      ['Vuelo llegada',     state.vueloLlegada || '—'],
+      ['Nº personas',       state.personas],
+      ['Empresa',           state.empresa || '—'],
+      ['Código descuento',  state.descuento || '—'],
+      ['Comentarios',       state.comentarios || '—'],
+      ['Método de pago',    metodoLabels[state.metodo]],
+      ['Comprobante',       comprobante],
+    ];
+    let html = rows.map(([k,v]) =>
+      `<div class="confirm-row"><div class="confirm-key">${k}</div><div class="confirm-val">${v}</div></div>`
+    ).join('');
+    html += `<div class="confirm-total"><div class="confirm-total-label">TOTAL A PAGAR</div><div class="confirm-total-amount">${total}€</div></div>`;
+    document.getElementById('confirmBox').innerHTML = html;
+  }
+
+  // ── Finalizar — envío por PHP ──
+  async function finalize() {
+    const btn = document.getElementById('btnFinalizar');
+    btn.disabled = true; btn.textContent = '⏳ Enviando...';
+
+    const ref  = 'PF05-' + Date.now().toString(36).toUpperCase().slice(-6);
+    const total = state.precio.toFixed(2) + '€';
+    const metodoLabels = { transferencia: 'Transferencia bancaria (CaixaBank)', bizum: 'Bizum (+34 623 49 13 13)', efectivo: 'Efectivo en parking' };
+    const nombreCompleto = state.nombre + (state.apellido ? ' ' + state.apellido : '');
+
+    const payload = {
+      type:                'reserva',
+      ref_numero:          ref,
+      cliente_nombre:      nombreCompleto,
+      cliente_email:       state.email,
+      cliente_tel:         state.tel || '—',
+      matricula:           state.matricula.toUpperCase(),
+      vehiculo:            state.vehiculo || '—',
+      vuelo_salida:        state.vueloSalida  || '—',
+      vuelo_llegada:       state.vueloLlegada || '—',
+      num_personas:        state.personas,
+      empresa:             state.empresa || '—',
+      email_factura:       state.emailFactura || '—',
+      codigo_descuento:    state.descuento || '—',
+      comentarios:         state.comentarios || '—',
+      dias:                state.duracionDias + (state.duracionDias===1?' día':' días'),
+      duracion:            state.duracionTexto,
+      fecha_entrada:       formatDateDisplay(state.fechaEntrada) + ' · ' + state.horaEntrada,
+      fecha_salida:        state.fechaSalida ? (formatDateDisplay(state.fechaSalida) + ' · ' + state.horaSalida) : '—',
+      metodo_pago:         metodoLabels[state.metodo],
+      total:               total,
+      comprobante_adjunto: (state.fileBizum || state.fileTransfer) ? 'Sí — adjunto' : 'No adjuntado',
+      comprobante_base64:  state.fileBizumB64 || state.fileTransferB64 || '',
+      comprobante_nombre:  (state.fileBizum || state.fileTransfer) ? (state.fileBizum || state.fileTransfer).name : '',
+    };
+
+    document.getElementById('emailOverlay').classList.add('show');
+
+    try {
+      const response = await fetch(PHP_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const result = await response.json();
+      if (!result.ok) console.warn('PHP response:', result);
+    } catch(err) {
+      console.warn('Error al enviar:', err);
+    }
+
+    document.getElementById('emailOverlay').classList.remove('show');
+    document.getElementById('refNum').textContent     = ref;
+    document.getElementById('emailSentTo').textContent = state.email;
+    document.querySelectorAll('.pago-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('successScreen').style.display = 'block';
+
+    for (let i = 1; i <= 4; i++) {
+      const st = document.getElementById('st' + i);
+      st.classList.remove('active'); st.classList.add('done');
+      st.querySelector('.step-num').textContent = '✓';
+      if (i < 4) document.getElementById('line' + i).classList.add('done');
+    }
+  }
+
+  // ── Formulario de contacto — va a administracion@ ──
+  async function handleContactSubmit(e) {
+    e.preventDefault();
+    const nombre  = document.getElementById('cNombre').value.trim();
+    const tel     = document.getElementById('cTel').value.trim();
+    const email   = document.getElementById('cEmail').value.trim();
+    const tipo    = document.getElementById('cTipo').value;
+    const mensaje = document.getElementById('cMensaje').value.trim();
+    if (!isValidEmail(email)) { document.getElementById('cEmail').focus(); return; }
+
+    const btn = document.getElementById('contactSubmitBtn');
+    btn.disabled = true; btn.textContent = '⏳ Enviando...';
+
+    const payload = {
+      type:            'contacto',
+      cliente_nombre:  nombre,
+      cliente_email:   email,
+      cliente_tel:     tel || '—',
+      tipo_consulta:   tipo || 'Consulta general',
+      mensaje:         mensaje || '—',
+    };
+
+    try {
+      const response = await fetch(PHP_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      await response.json();
+    } catch(err) {
+      console.warn('Error contacto:', err);
+    }
+
+    btn.textContent = '✅ ¡Mensaje enviado!'; btn.style.background = '#22c55e';
+    document.getElementById('contactForm').reset();
+    setTimeout(() => { btn.textContent = 'Enviar mensaje →'; btn.style.background = ''; btn.disabled = false; }, 4000);
+  }
+
+  // ── Gallery ──
+  function openModal(element) {
+    const img = element.querySelector('img');
+    document.getElementById('modalImage').src = img.src;
+    document.getElementById('caption').textContent = img.alt;
+    document.getElementById('imageModal').classList.add('open');
+  }
+  function closeModal(event) {
+    if (event && event.target !== document.getElementById('imageModal')) return;
+    document.getElementById('imageModal').classList.remove('open');
+  }
+
+  // ── Reset ──
+  function resetForm() {
+    state = {
+      precio:0, duracionDias:0, duracionTexto:'—',
+      fechaEntrada:'', horaEntrada:'08:00',
+      fechaSalida:'',  horaSalida:'18:00',
+      nombre:'', apellido:'', tel:'', email:'', matricula:'',
+      vehiculo:'', vueloSalida:'', vueloLlegada:'',
+      personas:'1', empresa:'', emailFactura:'',
+      descuento:'', comentarios:'',
+      metodo:'transferencia',
+      fileTransfer:null, fileTransferB64:'',
+      fileBizum:null,    fileBizumB64:'',
+    };
+    document.getElementById('fechaEntrada').value = '';
+    document.getElementById('fechaSalida').value  = '';
+    const ve = document.getElementById('valFechaEntrada');
+    const vs = document.getElementById('valFechaSalida');
+    ve.textContent = 'Selecciona fecha'; ve.classList.add('placeholder');
+    vs.textContent = 'Selecciona fecha'; vs.classList.add('placeholder');
+
+    ['pNombre','pApellido','pTel','pEmail','pMatricula','pVehiculo',
+     'pVueloSalida','pVueloLlegada','pEmpresa','pEmailFactura','pDescuento','pComentarios'
+    ].forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
+    document.getElementById('pPersonas').value = '1';
+
+    ['errNombre','errEmail','errTel','errMatricula'].forEach(id => showError(id, false));
+    ['pNombre','pEmail','pTel','pMatricula'].forEach(id => setInputError(id, false));
+
+    removeFile('transfer'); removeFile('bizum');
+    document.getElementById('successScreen').style.display = 'none';
+    document.getElementById('btnFinalizar').disabled = false;
+    document.getElementById('btnFinalizar').textContent = '✅ Confirmar y enviar reserva';
+    goStep(1);
+    calcDuration();
+  }
+
+  function copyIBAN() {
+    navigator.clipboard.writeText('ES6721000072680201224080').then(() => {
+      const btn = event.target;
+      btn.textContent='¡Copiado!'; btn.style.borderColor='#22c55e'; btn.style.color='#22c55e';
+      setTimeout(() => { btn.textContent='Copiar'; btn.style.borderColor=''; btn.style.color=''; }, 2000);
+    });
+  }
+  function copyBizum() {
+    navigator.clipboard.writeText('+34623491313').then(() => {
+      const btn = event.target;
+      btn.textContent='¡Copiado!'; btn.style.borderColor='#22c55e'; btn.style.color='#22c55e';
+      setTimeout(() => { btn.textContent='Copiar número'; btn.style.borderColor=''; btn.style.color=''; }, 2000);
+    });
+  }
+
+  updateSummary();
+  </script>
+</body>
+</html>
